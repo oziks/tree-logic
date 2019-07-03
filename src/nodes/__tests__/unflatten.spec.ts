@@ -68,36 +68,46 @@ describe("unflatten function", () => {
     const result = unflatten(nodes);
 
     expect(Array.isArray(result)).toBeTruthy();
-    expect(result.length).toEqual(3);
+    expect(result).toHaveLength(3);
 
-    expect(result[0]).toHaveProperty("data", "level 0");
-    expect(result[0]).toHaveProperty("children", undefined);
+    (node => {
+      // index 0
+      expect(node).toHaveProperty("data", "level 0");
+      expect(node).toHaveProperty("children", undefined);
+    })(result.shift());
 
-    expect(result[1]).toHaveProperty("data", "level 1");
-    expect(result[1]).toHaveProperty("children");
+    (node => {
+      // index 1
+      expect(node).toHaveProperty("data", "level 1");
+      expect(node).toHaveProperty("children");
+      expect(node.children).toHaveLength(1);
 
-    expect(result[1].children.length).toEqual(1);
+      (children => {
+        // children index 0
+        expect(children).toHaveProperty("data", "child of level 1");
+        expect(children).toHaveProperty("children", undefined);
+      })(node.children.pop());
+    })(result.shift());
 
-    expect(result[1].children[0]).toHaveProperty("data", "child of level 1");
-    expect(result[1].children[0]).toHaveProperty("children", undefined);
+    (node => {
+      // index 2
+      expect(node).toHaveProperty("data", "level 2");
+      expect(node).toHaveProperty("children");
+      expect(node.children).toHaveLength(1);
 
-    expect(result[2]).toHaveProperty("data", "level 2");
-    expect(result[2]).toHaveProperty("children");
+      (children => {
+        // children index 0
+        expect(children).toHaveProperty("data", "child of level 2");
+        expect(children).toHaveProperty("children");
+        expect(children.children).toHaveLength(1);
 
-    expect(result[2].children.length).toEqual(1);
-
-    expect(result[2].children[0]).toHaveProperty("data", "child of level 2");
-    expect(result[2].children[0]).toHaveProperty("children");
-    expect(result[2].children[0].children.length).toEqual(1);
-
-    expect(result[2].children[0].children[0]).toHaveProperty(
-      "data",
-      "child of child of level 2"
-    );
-    expect(result[2].children[0].children[0]).toHaveProperty(
-      "children",
-      undefined
-    );
+        (children => {
+          // children of children index 0
+          expect(children).toHaveProperty("data", "child of child of level 2");
+          expect(children).toHaveProperty("children", undefined);
+        })(children.children.pop());
+      })(node.children.pop());
+    })(result.shift());
   });
 
   test("unflatten function with orphan child", () => {

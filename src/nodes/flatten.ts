@@ -10,36 +10,42 @@ const flattenNodes = (
     return [];
   }
 
-  return nodes.reduce((flatNodes, node, index) => {
-    const { data, children, expanded } = node;
+  return nodes
+    .filter(child => child != null)
+    .reduce((flatNodes, node, index) => {
+      const { data, children, expanded } = node;
 
-    const hasChildren = Array.isArray(children) && children.length > 0;
-    const path = parent ? `${parent}.${index}` : index.toString();
-    const nodeExpanded = expanded === undefined ? true : !!expanded;
+      const cleanChildren =
+        (Array.isArray(children) && children.filter(child => child != null)) ||
+        [];
 
-    const flattenChildren = flattenNodes(
-      children,
-      path,
-      depth + 1,
-      parentExpanded && nodeExpanded
-    );
+      const hasChildren = cleanChildren.length > 0;
+      const path = parent ? `${parent}.${index}` : index.toString();
+      const nodeExpanded = expanded === undefined ? true : !!expanded;
 
-    const nodeExtra = {
-      path,
-      data,
-      children: flattenChildren
-        .filter(child => child.parent === path)
-        .map(child => child.path),
-      expanded: nodeExpanded,
-      visible: parentExpanded,
-      parent,
-      hasChildren,
-      lastChild: nodes.length - 1 === index,
-      depth
-    };
+      const flattenChildren = flattenNodes(
+        cleanChildren,
+        path,
+        depth + 1,
+        parentExpanded && nodeExpanded
+      );
 
-    return [...flatNodes, nodeExtra, ...flattenChildren];
-  }, []);
+      const nodeExtra = {
+        path,
+        data,
+        children: flattenChildren
+          .filter(child => child.parent === path)
+          .map(child => child.path),
+        expanded: nodeExpanded,
+        visible: parentExpanded,
+        parent,
+        hasChildren,
+        lastChild: nodes.length - 1 === index,
+        depth
+      };
+
+      return [...flatNodes, nodeExtra, ...flattenChildren];
+    }, []);
 };
 
 export default flattenNodes;

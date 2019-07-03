@@ -33,17 +33,47 @@ describe("expand action", () => {
     expect(Array.isArray(result)).toBeTruthy();
     expect(result.length).toEqual(6);
 
-    expect(result[3]).toHaveProperty("data", "level 2");
-    expect(result[3]).toHaveProperty("expanded", false);
-    expect(result[3]).toHaveProperty("visible", true);
+    (node => {
+      // index 0
+      expect(node).toHaveProperty("data", "level 0");
+      expect(node).toHaveProperty("expanded", true);
+      expect(node).toHaveProperty("visible", true);
+    })(result.shift());
 
-    expect(result[4]).toHaveProperty("data", "child of level 2");
-    expect(result[4]).toHaveProperty("expanded", true);
-    expect(result[4]).toHaveProperty("visible", true);
+    (node => {
+      // index 1
+      expect(node).toHaveProperty("data", "level 1");
+      expect(node).toHaveProperty("expanded", false);
+      expect(node).toHaveProperty("visible", true);
+    })(result.shift());
 
-    expect(result[5]).toHaveProperty("data", "child of child of level 2");
-    expect(result[5]).toHaveProperty("expanded", true);
-    expect(result[5]).toHaveProperty("visible", true);
+    (node => {
+      // index 2
+      expect(node).toHaveProperty("data", "child of level 1");
+      expect(node).toHaveProperty("expanded", true);
+      expect(node).toHaveProperty("visible", false);
+    })(result.shift());
+
+    (node => {
+      // index 3
+      expect(node).toHaveProperty("data", "level 2");
+      expect(node).toHaveProperty("expanded", false);
+      expect(node).toHaveProperty("visible", true);
+    })(result.shift());
+
+    (node => {
+      // index 4
+      expect(node).toHaveProperty("data", "child of level 2");
+      expect(node).toHaveProperty("expanded", true);
+      expect(node).toHaveProperty("visible", true);
+    })(result.shift());
+
+    (node => {
+      // index 5
+      expect(node).toHaveProperty("data", "child of child of level 2");
+      expect(node).toHaveProperty("expanded", true);
+      expect(node).toHaveProperty("visible", true);
+    })(result.shift());
   });
 
   test("it expand has expected with propagation", () => {
@@ -77,16 +107,46 @@ describe("expand action", () => {
     expect(Array.isArray(result)).toBeTruthy();
     expect(result.length).toEqual(6);
 
-    expect(result[3]).toHaveProperty("data", "level 2");
-    expect(result[3]).toHaveProperty("expanded", false);
-    expect(result[3]).toHaveProperty("visible", true);
+    (node => {
+      // index 0
+      expect(node).toHaveProperty("data", "level 0");
+      expect(node).toHaveProperty("expanded", true);
+      expect(node).toHaveProperty("visible", true);
+    })(result.shift());
 
-    expect(result[4]).toHaveProperty("data", "child of level 2");
-    expect(result[4]).toHaveProperty("expanded", true);
-    expect(result[4]).toHaveProperty("visible", false);
+    (node => {
+      // index 1
+      expect(node).toHaveProperty("data", "level 1");
+      expect(node).toHaveProperty("expanded", false);
+      expect(node).toHaveProperty("visible", true);
+    })(result.shift());
 
-    expect(result[5]).toHaveProperty("data", "child of child of level 2");
-    expect(result[5]).toHaveProperty("expanded", true);
-    expect(result[5]).toHaveProperty("visible", false);
+    (node => {
+      // index 2
+      expect(node).toHaveProperty("data", "child of level 1");
+      expect(node).toHaveProperty("expanded", true);
+      expect(node).toHaveProperty("visible", false);
+    })(result.shift());
+
+    (node => {
+      // index 3
+      expect(node).toHaveProperty("data", "level 2");
+      expect(node).toHaveProperty("expanded", false);
+      expect(node).toHaveProperty("visible", true);
+    })(result.shift());
+
+    (node => {
+      // index 4
+      expect(node).toHaveProperty("data", "child of level 2");
+      expect(node).toHaveProperty("expanded", true);
+      expect(node).toHaveProperty("visible", false);
+    })(result.shift());
+
+    (node => {
+      // index 5
+      expect(node).toHaveProperty("data", "child of child of level 2");
+      expect(node).toHaveProperty("expanded", true);
+      expect(node).toHaveProperty("visible", false);
+    })(result.shift());
   });
 });
