@@ -1,0 +1,65 @@
+{
+  "name": "baobab-tree-logic",
+  "version": "0.1.0",
+  "description": "Tree Logic",
+  "keywords": [
+    "tree",
+    "logic"
+  ],
+  "main": "dist/tree-logic.cjs.js",
+  "module": "dist/tree-logic.es.js",
+  "browser": "dist/tree-logic.umd.js",
+  "types": "dist/tree-logic.d.ts",
+  "files": [
+    "dist"
+  ],
+  "author": "Morgan Brunot <brunot.morgan@gmail.com> (http://github.com/oziks)",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/oziks/tree-logic.git"
+  },
+  "bugs": {
+    "url": "https://github.com/oziks/tree-logic/issues"
+  },
+  "homepage": "https://github.com/oziks/tree-logic#readme",
+  "devDependencies": {
+    "@types/faker": "^4.1.5",
+    "@types/jest": "^24.0.13",
+    "@types/node": "^12.0.1",
+    "faker": "^4.1.0",
+    "husky": "^2.3.0",
+    "jest": "^24.8.0",
+    "prettier": "1.17.1",
+    "rimraf": "^2.6.3",
+    "rollup": "^1.12.0",
+    "rollup-plugin-typescript2": "^0.21.0",
+    "ts-jest": "^24.0.2",
+    "typescript": "3.4.5"
+  },
+  "scripts": {
+    "lint": "prettier ./src/* --write",
+    "test": "jest --verbose",
+    "build": "rollup -c",
+    "watch": "rollup -cw",
+    "prepare": "rimraf dist; npm run build"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run lint",
+      "pre-push": "npm test"
+    }
+  },
+  "jest": {
+    "coverageDirectory": "./coverage/",
+    "collectCoverage": true,
+    "transform": {
+      "^.+\\.ts$": "ts-jest"
+    },
+    "moduleFileExtensions": [
+      "ts",
+      "js"
+    ],
+    "testRegex": "^.+\\.spec\\.ts$"
+  }
+}
