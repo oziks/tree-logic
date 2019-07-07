@@ -6,10 +6,10 @@
     "tree",
     "logic"
   ],
-  "main": "dist/tree-logic.cjs.js",
-  "module": "dist/tree-logic.es.js",
-  "browser": "dist/tree-logic.umd.js",
-  "types": "dist/tree-logic.d.ts",
+  "main": "dist/index.cjs.js",
+  "module": "dist/index.es.js",
+  "browser": "dist/index.umd.js",
+  "types": "dist/index.d.ts",
   "files": [
     "dist"
   ],
